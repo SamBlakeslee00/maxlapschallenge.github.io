@@ -1049,19 +1049,23 @@
             displayCodes();
         }
 
-        // Save entry to Google Sheets
+        // Save entry to Google Sheets using GET request as workaround for CORS
         async function saveEntry(entry) {
             try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'text/plain',
-                    },
-                    body: JSON.stringify({
-                        ...entry,
-                        action: 'submit'
-                    })
+                // Use GET request with parameters to bypass CORS issues
+                const params = new URLSearchParams({
+                    action: 'submit',
+                    name: entry.name,
+                    dailyCode: entry.dailyCode,
+                    gender: entry.gender,
+                    method: entry.method,
+                    submissionTime: entry.submissionTime,
+                    id: entry.id
                 });
+                
+                const response = await fetch(`${SCRIPT_URL}?${params}`);
+                const result = await response.text();
+                console.log('Save result:', result);
                 
                 // Add to local data
                 leaderboardData.push(entry);

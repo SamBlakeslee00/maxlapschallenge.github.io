@@ -1110,25 +1110,6 @@
             }
         }
 
-        // Toggle code in Google Sheets
-        async function saveCodeToggle(code, isActive) {
-            try {
-                await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'text/plain',
-                    },
-                    body: JSON.stringify({
-                        code: code,
-                        isActive: isActive,
-                        action: 'toggleCode'
-                    })
-                });
-            } catch (error) {
-                console.error('Error toggling code:', error);
-            }
-        }
-
         // Load data when page loads
         window.addEventListener('load', function() {
             if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
@@ -1369,7 +1350,19 @@
             if (usedCodes[code]) {
                 if (confirm(`Deactivate code ${code}?`)) {
                     delete usedCodes[code];
-                    await saveCodeToggle(code, false);
+                    
+                    // Use GET request to bypass CORS
+                    try {
+                        const params = new URLSearchParams({
+                            action: 'toggleCode',
+                            code: code,
+                            isActive: 'false'
+                        });
+                        await fetch(`${SCRIPT_URL}?${params}`);
+                    } catch (error) {
+                        console.error('Error deactivating code:', error);
+                    }
+                    
                     displayCodes();
                 }
             } else {
@@ -1377,7 +1370,19 @@
                     date: new Date().toISOString(),
                     activatedBy: 'Admin'
                 };
-                await saveCodeToggle(code, true);
+                
+                // Use GET request to bypass CORS
+                try {
+                    const params = new URLSearchParams({
+                        action: 'toggleCode',
+                        code: code,
+                        isActive: 'true'
+                    });
+                    await fetch(`${SCRIPT_URL}?${params}`);
+                } catch (error) {
+                    console.error('Error activating code:', error);
+                }
+                
                 displayCodes();
             }
         }

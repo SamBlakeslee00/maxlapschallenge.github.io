@@ -6,7 +6,16 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="format-detection" content="telephone=no">
-    <title>MAXLAPS CHALLENGE</title>
+    <title>MAX LAPS CHALLENGE</title>
+    <!-- 
+    IMPORTANT: To display the Strafe logo:
+    1. Save the Strafe logo image (the black mountain design with STRAFE text) as "strafe-logo.png"
+    2. Place it in your project folder (same folder as this HTML file, or in an images folder)
+    3. Update the src paths in both <img> tags below if needed:
+       - If in same folder: src="strafe-logo.png"
+       - If in images folder: src="images/strafe-logo.png"
+       - If hosted online: src="https://yoursite.com/path/to/strafe-logo.png"
+    -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         
@@ -16,10 +25,35 @@
             box-sizing: border-box;
         }
 
+        :root {
+            /* Strafe-inspired earth tone color palette */
+            --primary-black: #000;
+            --strafe-amber: #D4A574;
+            --strafe-sage: #87A96B;
+            --strafe-arctic: #5B9BD5;
+            --strafe-stone: #8B8680;
+            --strafe-snow: #FAFAFA;
+            --hover-amber: #C19660;
+            --light-sage: #E8F0E3;
+            --light-arctic: #E3F0FA;
+            
+            /* Additional earth tones */
+            --strafe-rust: #A0522D;
+            --strafe-terracotta: #C65D00;
+            --strafe-forest: #228B22;
+            --strafe-olive: #6B8E23;
+            --strafe-sand: #E5D4A1;
+            --strafe-bark: #8B4513;
+            --strafe-moss: #4A5D23;
+            --strafe-clay: #B87333;
+            --strafe-wheat: #F5DEB3;
+            --strafe-sienna: #A0522D;
+        }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
-            color: #000;
+            color: var(--primary-black);
             background-color: #fff;
             font-size: 14px;
             letter-spacing: 0.02em;
@@ -34,10 +68,11 @@
         /* Header Styles */
         .header {
             background-color: #fff;
-            border-bottom: 1px solid #e5e5e5;
+            border-bottom: 2px solid var(--strafe-amber);
             position: sticky;
             top: 0;
             z-index: 1000;
+            background: linear-gradient(to bottom, #fff 0%, var(--strafe-wheat) 100%);
         }
 
         .nav-bar {
@@ -47,11 +82,25 @@
             padding: 20px 0;
         }
 
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .strafe-logo {
+            height: 40px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+        }
+
         .logo {
             font-size: 24px;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            color: #000;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            color: var(--primary-black);
+            text-shadow: none;
         }
 
         .nav-links {
@@ -65,41 +114,79 @@
             font-size: 13px;
             font-weight: 600;
             letter-spacing: 0.08em;
-            color: #000;
+            color: var(--primary-black);
             text-decoration: none;
-            transition: opacity 0.2s;
+            transition: all 0.3s;
+            position: relative;
         }
 
         .nav-link:hover {
-            opacity: 0.6;
+            color: var(--strafe-rust);
         }
 
-        /* Hero Section */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--strafe-rust);
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section with Image Background */
         .hero {
-            background-color: #f5f5f5;
-            padding: 80px 0;
+            background: linear-gradient(135deg, var(--strafe-sand) 0%, var(--light-sage) 50%, var(--strafe-wheat) 100%);
+            padding: 100px 0;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Placeholder for hero image - replace src with your image */
+        .hero-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.15;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
         }
 
         .hero h1 {
-            font-size: 48px;
-            font-weight: 800;
-            letter-spacing: -0.02em;
+            font-size: 56px;
+            font-weight: 400;
+            letter-spacing: 0.02em;
             margin-bottom: 16px;
             text-transform: uppercase;
+            color: var(--primary-black);
+            text-shadow: none;
         }
 
         .hero p {
-            font-size: 16px;
-            color: #666;
+            font-size: 18px;
+            color: var(--primary-black);
             max-width: 600px;
             margin: 0 auto;
+            font-weight: 500;
         }
 
         /* Stats Grid */
         .stats-section {
             padding: 60px 0;
-            background-color: #fff;
+            background: linear-gradient(to bottom, var(--strafe-snow) 0%, var(--strafe-sand) 100%);
         }
 
         .stats-grid {
@@ -109,21 +196,26 @@
         }
 
         .stat-card {
-            background-color: #f5f5f5;
+            background: linear-gradient(135deg, #fff 0%, var(--strafe-wheat) 100%);
             padding: 40px;
             text-align: center;
-            transition: transform 0.2s;
+            transition: all 0.3s;
+            border: 1px solid var(--strafe-clay);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(184, 115, 51, 0.1);
         }
 
         .stat-card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(184, 115, 51, 0.2);
+            background: linear-gradient(135deg, #fff 0%, var(--strafe-sand) 100%);
         }
 
         .stat-value {
             font-size: 48px;
-            font-weight: 800;
+            font-weight: 600;
             letter-spacing: -0.02em;
-            color: #000;
+            color: var(--strafe-terracotta);
             margin-bottom: 8px;
         }
 
@@ -132,7 +224,7 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            color: #666;
+            color: var(--primary-black);
         }
 
         /* Main Content Grid */
@@ -149,17 +241,19 @@
 
         /* Form Section */
         .form-section {
-            background-color: #fff;
-            border: 1px solid #e5e5e5;
+            background: linear-gradient(to bottom, #fff 0%, var(--strafe-wheat) 100%);
+            border: 1px solid var(--strafe-clay);
             padding: 40px;
+            box-shadow: 0 4px 15px rgba(160, 82, 45, 0.1);
         }
 
         .form-section h2 {
             font-size: 24px;
-            font-weight: 700;
+            font-weight: 600;
             margin-bottom: 32px;
             text-transform: uppercase;
             letter-spacing: -0.02em;
+            color: var(--primary-black);
         }
 
         .form-group {
@@ -173,15 +267,15 @@
             text-transform: uppercase;
             letter-spacing: 0.08em;
             margin-bottom: 8px;
-            color: #000;
+            color: var(--primary-black);
         }
 
         input[type="text"],
         input[type="password"] {
             width: 100%;
             padding: 12px 16px;
-            border: 1px solid #000;
-            background-color: #fff;
+            border: 1px solid var(--strafe-clay);
+            background-color: rgba(255, 255, 255, 0.9);
             font-size: 14px;
             font-family: inherit;
             transition: border-color 0.2s;
@@ -190,14 +284,15 @@
         input[type="text"]:focus,
         input[type="password"]:focus {
             outline: none;
-            border-color: #666;
+            border-color: var(--primary-black);
+            background-color: #fff;
         }
 
         select {
             width: 100%;
             padding: 12px 16px;
-            border: 1px solid #000;
-            background-color: #fff;
+            border: 1px solid var(--strafe-clay);
+            background-color: rgba(255, 255, 255, 0.9);
             font-size: 14px;
             font-family: inherit;
             cursor: pointer;
@@ -205,11 +300,11 @@
 
         select:focus {
             outline: none;
-            border-color: #666;
+            border-color: var(--primary-black);
         }
 
         .filter-select {
-            border: 1px solid #e5e5e5;
+            border: 1px solid var(--strafe-sand);
         }
 
         .radio-group {
@@ -227,7 +322,7 @@
         .radio-item input[type="radio"] {
             width: 16px;
             height: 16px;
-            accent-color: #000;
+            accent-color: var(--primary-black);
         }
 
         .radio-item label {
@@ -235,12 +330,13 @@
             text-transform: none;
             letter-spacing: normal;
             margin-bottom: 0;
+            color: var(--primary-black);
         }
 
         .btn {
             width: 100%;
             padding: 16px 32px;
-            background-color: #000;
+            background: linear-gradient(135deg, var(--strafe-terracotta) 0%, var(--strafe-rust) 100%);
             color: #fff;
             border: none;
             font-size: 14px;
@@ -250,21 +346,23 @@
             cursor: pointer;
             transition: all 0.2s;
             margin-top: 8px;
+            box-shadow: 0 4px 10px rgba(198, 93, 0, 0.3);
         }
 
         .btn:hover {
-            background-color: #333;
+            background: linear-gradient(135deg, var(--strafe-rust) 0%, var(--strafe-bark) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(198, 93, 0, 0.4);
         }
 
         .btn-secondary {
-            background-color: #fff;
-            color: #000;
-            border: 1px solid #000;
+            background: linear-gradient(135deg, var(--strafe-sage) 0%, var(--strafe-olive) 100%);
+            color: #fff;
+            border: none;
         }
 
         .btn-secondary:hover {
-            background-color: #000;
-            color: #fff;
+            background: linear-gradient(135deg, var(--strafe-olive) 0%, var(--strafe-forest) 100%);
         }
 
         .btn-small {
@@ -275,25 +373,28 @@
 
         /* Table Styles */
         .table-container {
-            background-color: #fff;
-            border: 1px solid #e5e5e5;
+            background: linear-gradient(to bottom, #fff 0%, var(--strafe-wheat) 100%);
+            border: 1px solid var(--strafe-clay);
             padding: 40px;
+            box-shadow: 0 4px 15px rgba(160, 82, 45, 0.1);
         }
 
         .table-container h2 {
             font-size: 24px;
-            font-weight: 700;
+            font-weight: 600;
             margin-bottom: 32px;
             text-transform: uppercase;
             letter-spacing: -0.02em;
+            color: var(--primary-black);
         }
 
         .filter-input {
             width: 100%;
             padding: 12px 16px;
-            border: 1px solid #e5e5e5;
+            border: 1px solid var(--strafe-sand);
             margin-bottom: 24px;
             font-size: 14px;
+            background-color: rgba(255, 255, 255, 0.9);
         }
 
         table {
@@ -308,17 +409,18 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            border-bottom: 2px solid #000;
+            border-bottom: 2px solid var(--primary-black);
+            color: var(--primary-black);
         }
 
         td {
             padding: 16px;
-            border-bottom: 1px solid #e5e5e5;
+            border-bottom: 1px solid var(--strafe-sand);
             font-size: 14px;
         }
 
         tr:hover {
-            background-color: #f5f5f5;
+            background-color: rgba(245, 222, 179, 0.3);
         }
 
         /* Success/Error Messages */
@@ -331,12 +433,12 @@
         }
 
         .success-message {
-            background-color: #000;
+            background-color: var(--strafe-forest);
             color: #fff;
         }
 
         .error-message {
-            background-color: #ff0000;
+            background-color: var(--strafe-rust);
             color: #fff;
         }
 
@@ -360,23 +462,25 @@
         }
 
         .code-item {
-            background-color: #000;
+            background: linear-gradient(135deg, var(--strafe-terracotta) 0%, var(--strafe-rust) 100%);
             color: #fff;
             padding: 16px 8px;
             text-align: center;
-            font-weight: 700;
+            font-weight: 600;
             font-size: 16px;
             cursor: pointer;
             transition: all 0.2s;
             position: relative;
+            box-shadow: 0 3px 8px rgba(160, 82, 45, 0.3);
         }
 
         .code-item:hover {
-            background-color: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(160, 82, 45, 0.4);
         }
 
         .code-item.used {
-            background-color: #666;
+            background: linear-gradient(135deg, var(--strafe-stone) 0%, #666 100%);
             cursor: default;
         }
 
@@ -400,7 +504,7 @@
         }
 
         .violations-list {
-            background-color: #f5f5f5;
+            background-color: var(--strafe-sand);
             padding: 24px;
             margin-top: 16px;
             max-height: 400px;
@@ -411,7 +515,7 @@
             padding: 16px;
             margin-bottom: 12px;
             background-color: #fff;
-            border-left: 4px solid #ff0000;
+            border-left: 4px solid var(--strafe-rust);
             font-size: 13px;
         }
 
@@ -424,22 +528,25 @@
         }
 
         .category-section {
-            background-color: #f5f5f5;
+            background: linear-gradient(to bottom, var(--strafe-sand) 0%, var(--strafe-wheat) 100%);
             padding: 24px;
+            border: 1px solid var(--strafe-clay);
+            box-shadow: 0 3px 10px rgba(184, 115, 51, 0.1);
         }
 
         .category-section h3 {
             font-size: 16px;
-            font-weight: 700;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: -0.02em;
             margin-bottom: 16px;
+            color: var(--primary-black);
         }
 
         .category-entry {
             padding: 12px;
             margin-bottom: 8px;
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.9);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -463,6 +570,7 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.08em;
+            color: var(--strafe-terracotta);
         }
 
         /* Modal */
@@ -478,19 +586,22 @@
         }
 
         .modal-content {
-            background-color: #fff;
+            background: linear-gradient(to bottom, #fff 0%, var(--strafe-wheat) 100%);
             margin: 10% auto;
             padding: 40px;
             width: 90%;
             max-width: 400px;
+            border: 2px solid var(--strafe-clay);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .modal-content h2 {
             font-size: 24px;
-            font-weight: 700;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: -0.02em;
             margin-bottom: 32px;
+            color: var(--primary-black);
         }
 
         .close {
@@ -499,6 +610,7 @@
             font-weight: 300;
             cursor: pointer;
             line-height: 1;
+            color: var(--primary-black);
         }
 
         .close:hover {
@@ -510,7 +622,7 @@
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background-color: #000;
+            background: linear-gradient(135deg, var(--strafe-bark) 0%, var(--strafe-sienna) 100%);
             color: #fff;
             padding: 12px 24px;
             font-size: 12px;
@@ -520,17 +632,24 @@
             border: none;
             cursor: pointer;
             transition: all 0.2s;
+            box-shadow: 0 4px 10px rgba(139, 69, 19, 0.4);
         }
 
         .admin-btn:hover {
-            background-color: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(139, 69, 19, 0.5);
         }
 
         .no-data {
             text-align: center;
             padding: 40px;
-            color: #666;
+            color: var(--strafe-stone);
             font-style: italic;
+        }
+
+        /* Enhanced leaderboard section styling */
+        .leaderboard-full {
+            background: linear-gradient(to bottom, var(--strafe-sand) 0%, var(--strafe-wheat) 100%);
         }
 
         @media (max-width: 768px) {
@@ -539,6 +658,17 @@
                 flex-direction: column;
                 gap: 16px;
                 padding: 16px 0;
+            }
+
+            .nav-left {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .strafe-logo {
+                height: 35px;
+                width: auto;
             }
 
             .nav-links {
@@ -745,11 +875,11 @@
             }
 
             .code-item:hover {
-                background-color: #000;
+                background: linear-gradient(135deg, var(--strafe-terracotta) 0%, var(--strafe-rust) 100%);
             }
 
             .code-item.used:hover {
-                background-color: #666;
+                background: linear-gradient(135deg, var(--strafe-stone) 0%, #666 100%);
             }
         }
 
@@ -768,7 +898,12 @@
         <header class="header">
             <div class="container">
                 <nav class="nav-bar">
-                    <div class="logo">MAXLAPS CHALLENGE</div>
+                    <div class="nav-left">
+                        <!-- Strafe Logo - Use the exact logo image file -->
+                        <!-- IMPORTANT: Save the Strafe logo image and update this path -->
+                        <img src="strafe-logo.png" alt="Strafe" class="strafe-logo" onerror="this.style.display='none'">
+                        <div class="logo">MAX LAPS CHALLENGE</div>
+                    </div>
                     <div class="nav-links">
                         <a href="#submit" class="nav-link">SUBMIT</a>
                         <a href="#leaderboard" class="nav-link">LEADERBOARD</a>
@@ -779,8 +914,8 @@
 
         <section class="hero">
             <div class="container">
-                <h1>TRACK YOUR SUMMIT</h1>
-                <p>Record your daily mountain achievements with verified summit codes</p>
+                <h1>TRACK YOUR LAP</h1>
+                <p>Congratulations on reaching the summit! You're one lap closer to winning amazing prizes.</p>
             </div>
         </section>
 
@@ -873,7 +1008,7 @@
             </div>
         </section>
 
-        <section class="leaderboard-full" id="leaderboard" style="padding: 60px 0; background-color: #f5f5f5;">
+        <section class="leaderboard-full" id="leaderboard" style="padding: 60px 0;">
             <div class="container">
                 <div class="form-section" style="max-width: 100%;">
                     <h2>LEADERBOARD</h2>
@@ -910,7 +1045,12 @@
         <header class="header">
             <div class="container">
                 <nav class="nav-bar">
-                    <div class="logo">MAXLAPS CHALLENGE ADMIN</div>
+                    <div class="nav-left">
+                        <!-- Strafe Logo - Use the exact logo image file -->
+                        <!-- IMPORTANT: Save the Strafe logo image and update this path -->
+                        <img src="strafe-logo.png" alt="Strafe" class="strafe-logo" onerror="this.style.display='none'">
+                        <div class="logo">MAX LAPS CHALLENGE ADMIN</div>
+                    </div>
                     <div class="nav-links">
                         <a href="#" class="nav-link" onclick="backToMain()">← BACK TO MAIN</a>
                     </div>
@@ -945,7 +1085,7 @@
                 <div class="admin-grid">
                     <div class="form-section">
                         <h2>Summit Codes</h2>
-                        <p style="margin-bottom: 16px; color: #666;">Click to activate/deactivate codes</p>
+                        <p style="margin-bottom: 16px; color: var(--strafe-stone);">Click to activate/deactivate codes</p>
                         <p style="margin-bottom: 16px;">Active codes: <strong id="activeCodeCount">0</strong></p>
                         <div class="codes-display" id="codesDisplay"></div>
                         <button class="btn btn-secondary btn-small" style="margin-top: 24px;" onclick="clearActiveCodes()">CLEAR ALL ACTIVE</button>
@@ -1003,7 +1143,7 @@
         let usedCodes = {};
         const ADMIN_PASSWORD = "mountain2024";
 
-        // Fixed 30 unique 3-digit codes for MaxLaps Challenge
+        // Fixed 30 unique 3-digit codes for Max Laps Challenge
         const uniqueDailyCodes = [
             "101", "237", "456", "789", "234",
             "567", "890", "123", "345", "678",

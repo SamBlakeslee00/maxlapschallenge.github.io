@@ -1054,9 +1054,8 @@
             try {
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'text/plain',
                     },
                     body: JSON.stringify({
                         ...entry,
@@ -1064,8 +1063,7 @@
                     })
                 });
                 
-                // Since we're using no-cors, we can't read the response
-                // Just add to local data
+                // Add to local data
                 leaderboardData.push(entry);
                 leaderboardData.sort((a, b) => new Date(b.date) - new Date(a.date));
                 
@@ -1074,7 +1072,12 @@
                 updateStatistics();
             } catch (error) {
                 console.error('Error saving entry:', error);
-                alert('Error saving entry. Please try again.');
+                // Still add locally even if save fails
+                leaderboardData.push(entry);
+                leaderboardData.sort((a, b) => new Date(b.date) - new Date(a.date));
+                displayLeaderboard();
+                displayFullLeaderboard();
+                updateStatistics();
             }
         }
 
@@ -1083,9 +1086,8 @@
             try {
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'text/plain',
                     },
                     body: JSON.stringify({
                         ...violation,
@@ -1098,6 +1100,9 @@
                 displayViolations();
             } catch (error) {
                 console.error('Error saving violation:', error);
+                codeViolations.push(violation);
+                updateStatistics();
+                displayViolations();
             }
         }
 
@@ -1106,9 +1111,8 @@
             try {
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'text/plain',
                     },
                     body: JSON.stringify({
                         code: code,

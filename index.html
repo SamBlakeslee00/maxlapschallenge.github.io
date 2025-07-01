@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <title>MAXLAPS CHALLENGE</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #000;
+            background-color: #fff;
+            font-size: 14px;
+            letter-spacing: 0.02em;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: #fff;
+            border-bottom: 1px solid #e5e5e5;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #000;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-transform: uppercase;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            color: #000;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .nav-link:hover {
+            opacity: 0.6;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-color: #f5f5f5;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            font-size: 16px;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Stats Grid */
+        .stats-section {
+            padding: 60px 0;
+            background-color: #fff;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .stat-card {
+            background-color: #f5f5f5;
+            padding: 40px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-value {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #000;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #666;
+        }
+
+        /* Main Content Grid */
+        .main-content {
+            padding: 60px 0;
+            background-color: #fff;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+        }
+
+        /* Form Section */
+        .form-section {
+            background-color: #fff;
+            border: 1px solid #e5e5e5;
+            padding: 40px;
+        }
+
+        .form-section h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 8px;
+            color: #000;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #000;
+            background-color: #fff;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #666;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 24px;
+            margin-top: 12px;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .radio-item input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #000;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #000;
+            background-color: #fff;
+            font-size: 14px;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #666;
+        }
+
+        .filter-select {
+            border: 1px solid #e5e5e5;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px 32px;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+
+        .btn:hover {
+            background-color: #333;
+        }
+
+        .btn-secondary {
+            background-color: #fff;
+            color: #000;
+            border: 1px solid #000;
+        }
+
+        .btn-secondary:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .btn-small {
+            width: auto;
+            padding: 12px 24px;
+            font-size: 12px;
+        }
+
+        /* Table Styles */
+        .table-container {
+            background-color: #fff;
+            border: 1px solid #e5e5e5;
+            padding: 40px;
+        }
+
+        .table-container h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+
+        .filter-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e5e5e5;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            border-bottom: 2px solid #000;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid #e5e5e5;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* Success/Error Messages */
+        .message {
+            padding: 16px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .success-message {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .error-message {
+            background-color: #ff0000;
+            color: #fff;
+        }
+
+        /* Admin Section */
+        .admin-section {
+            display: none;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .codes-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .code-item {
+            background-color: #000;
+            color: #fff;
+            padding: 16px 8px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .code-item:hover {
+            background-color: #333;
+        }
+
+        .code-item.used {
+            background-color: #666;
+            cursor: default;
+        }
+
+        .code-item.used::after {
+            content: attr(data-used-date);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            line-height: 1.3;
+            padding: 4px;
+            font-weight: 400;
+        }
+
+        .violations-list {
+            background-color: #f5f5f5;
+            padding: 24px;
+            margin-top: 16px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .violation-item {
+            padding: 16px;
+            margin-bottom: 12px;
+            background-color: #fff;
+            border-left: 4px solid #ff0000;
+            font-size: 13px;
+        }
+
+        /* Category Leaderboards */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 24px;
+        }
+
+        .category-section {
+            background-color: #f5f5f5;
+            padding: 24px;
+        }
+
+        .category-section h3 {
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+
+        .category-entry {
+            padding: 12px;
+            margin-bottom: 8px;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .category-entry:nth-child(1) {
+            border-left: 4px solid #FFD700;
+        }
+
+        .category-entry:nth-child(2) {
+            border-left: 4px solid #C0C0C0;
+        }
+
+        .category-entry:nth-child(3) {
+            border-left: 4px solid #CD7F32;
+        }
+
+        .entry-count {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 40px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .modal-content h2 {
+            font-size: 24px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            margin-bottom: 32px;
+        }
+
+        .close {
+            float: right;
+            font-size: 24px;
+            font-weight: 300;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close:hover {
+            opacity: 0.6;
+        }
+
+        /* Fixed Admin Button */
+        .admin-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #000;
+            color: #fff;
+            padding: 12px 24px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .admin-btn:hover {
+            background-color: #333;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            /* Stack navigation */
+            .nav-bar {
+                flex-direction: column;
+                gap: 16px;
+                padding: 16px 0;
+            }
+
+            .nav-links {
+                gap: 20px;
+            }
+
+            /* Responsive typography */
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 14px;
+                padding: 0 20px;
+            }
+
+            .stat-value {
+                font-size: 32px;
+            }
+
+            /* Stack content grid */
+            .content-grid,
+            .admin-grid,
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Form improvements for mobile */
+            .form-section {
+                padding: 24px;
+            }
+
+            .form-section h2 {
+                font-size: 20px;
+            }
+
+            /* Larger touch targets */
+            input[type="text"],
+            input[type="password"],
+            select {
+                padding: 16px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+
+            .btn {
+                padding: 18px 32px;
+                font-size: 16px;
+            }
+
+            .radio-item input[type="radio"] {
+                width: 20px;
+                height: 20px;
+            }
+
+            /* Table responsiveness */
+            .table-container {
+                padding: 24px;
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 500px;
+            }
+
+            th, td {
+                padding: 12px 8px;
+                font-size: 13px;
+            }
+
+            /* Stats grid mobile */
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+
+            .stat-card {
+                padding: 24px 16px;
+            }
+
+            /* Filter dropdowns side by side */
+            .filter-group {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            /* Modal adjustments */
+            .modal-content {
+                width: 95%;
+                padding: 24px;
+                margin: 20% auto;
+            }
+
+            /* Fixed admin button */
+            .admin-btn {
+                bottom: 20px;
+                right: 20px;
+                padding: 10px 20px;
+                font-size: 11px;
+            }
+
+            /* Code display grid */
+            .codes-display {
+                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+                gap: 8px;
+            }
+
+            .code-item {
+                padding: 12px 4px;
+                font-size: 14px;
+            }
+
+            /* Reduce padding on hero */
+            .hero {
+                padding: 40px 0;
+            }
+
+            .stats-section {
+                padding: 40px 0;
+            }
+
+            .main-content {
+                padding: 40px 0;
+            }
+
+            /* Category sections */
+            .category-section {
+                padding: 20px;
+            }
+
+            .category-section h3 {
+                font-size: 14px;
+            }
+
+            /* Container padding */
+            .container {
+                padding: 0 16px;
+            }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 375px) {
+            .stat-value {
+                font-size: 24px;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .nav-links {
+                font-size: 12px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+        }
+
+        /* Landscape orientation improvements */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .hero {
+                padding: 30px 0;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .stat-card {
+                padding: 16px;
+            }
+
+            .stat-value {
+                font-size: 24px;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            /* Larger tap targets for touch devices */
+            .nav-link {
+                padding: 8px 12px;
+            }
+
+            .radio-item {
+                padding: 8px 0;
+            }
+
+            .code-item {
+                min-height: 48px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            /* Disable hover effects on touch devices */
+            tr:hover {
+                background-color: transparent;
+            }
+
+            .code-item:hover {
+                background-color: #000;
+            }
+
+            .code-item.used:hover {
+                background-color: #666;
+            }
+        }
+
+        /* iOS specific fixes */
+        @supports (-webkit-touch-callout: none) {
+            /* Prevent double-tap zoom */
+            input, button, select, textarea {
+                touch-action: manipulation;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Section -->
+    <div id="mainSection">
+        <header class="header">
+            <div class="container">
+                <nav class="nav-bar">
+                    <div class="logo">MAXLAPS CHALLENGE</div>
+                    <div class="nav-links">
+                        <a href="#submit" class="nav-link">SUBMIT</a>
+                        <a href="#leaderboard" class="nav-link">LEADERBOARD</a>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <section class="hero">
+            <div class="container">
+                <h1>TRACK YOUR SUMMIT</h1>
+                <p>Record your daily mountain achievements with verified summit codes</p>
+            </div>
+        </section>
+
+        <section class="stats-section">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalPlayers">0</div>
+                        <div class="stat-label">Total Entries</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="highestScore">0 / 0</div>
+                        <div class="stat-label">Bikes / Running</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="averageScore">0M / 0F</div>
+                        <div class="stat-label">Gender Split</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="todaySubmissions">0</div>
+                        <div class="stat-label">Today's Entries</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="main-content" id="submit">
+            <div class="container">
+                <div class="content-grid">
+                    <div class="form-section">
+                        <h2>Submit Entry</h2>
+                        
+                        <div class="success-message message" id="successMessage">
+                            ENTRY SUBMITTED SUCCESSFULLY
+                        </div>
+
+                        <form id="scoreForm">
+                            <div class="form-group">
+                                <label for="playerName">Name</label>
+                                <input type="text" id="playerName" required placeholder="Enter your name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="dailyCode">Summit Code</label>
+                                <input type="text" id="dailyCode" required placeholder="3-digit code">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Gender</label>
+                                <div class="radio-group">
+                                    <div class="radio-item">
+                                        <input type="radio" id="male" name="gender" value="Male" required>
+                                        <label for="male">Male</label>
+                                    </div>
+                                    <div class="radio-item">
+                                        <input type="radio" id="female" name="gender" value="Female" required>
+                                        <label for="female">Female</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Method</label>
+                                <div class="radio-group">
+                                    <div class="radio-item">
+                                        <input type="radio" id="foot" name="method" value="Running" required>
+                                        <label for="foot">Running</label>
+                                    </div>
+                                    <div class="radio-item">
+                                        <input type="radio" id="cycle" name="method" value="Biking" required>
+                                        <label for="cycle">Biking</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn">SUBMIT ENTRY</button>
+                        </form>
+                    </div>
+
+                    <div class="table-container">
+                        <h2>Recent Entries</h2>
+                        
+                        <input type="text" class="filter-input" id="searchInput" placeholder="Search by name or code..." onkeyup="filterLeaderboard()">
+
+                        <div id="leaderboardContent">
+                            <div class="no-data">No entries yet. Be the first to submit!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="leaderboard-full" id="leaderboard" style="padding: 60px 0; background-color: #f5f5f5;">
+            <div class="container">
+                <div class="form-section" style="max-width: 100%;">
+                    <h2>LEADERBOARD</h2>
+                    
+                    <div style="display: flex; gap: 16px; margin-bottom: 32px;" class="filter-group">
+                        <div class="form-group" style="margin: 0; flex: 1;">
+                            <label for="methodFilter">Method</label>
+                            <select id="methodFilter" class="filter-select" onchange="filterFullLeaderboard()">
+                                <option value="all">All Methods</option>
+                                <option value="Running">Running</option>
+                                <option value="Biking">Biking</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin: 0; flex: 1;">
+                            <label for="genderFilter">Gender</label>
+                            <select id="genderFilter" class="filter-select" onchange="filterFullLeaderboard()">
+                                <option value="all">All Genders</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="fullLeaderboardContent">
+                        <div class="no-data">No entries yet.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Admin Section -->
+    <div id="adminSection" class="admin-section">
+        <header class="header">
+            <div class="container">
+                <nav class="nav-bar">
+                    <div class="logo">MAXLAPS CHALLENGE ADMIN</div>
+                    <div class="nav-links">
+                        <a href="#" class="nav-link" onclick="backToMain()">← BACK TO MAIN</a>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <section class="main-content">
+            <div class="container">
+                <div class="form-section" style="margin-bottom: 40px;">
+                    <h2>Category Leaders</h2>
+                    <div class="category-grid">
+                        <div class="category-section">
+                            <h3>Male - Running</h3>
+                            <div id="maleFoot"></div>
+                        </div>
+                        <div class="category-section">
+                            <h3>Female - Running</h3>
+                            <div id="femaleFoot"></div>
+                        </div>
+                        <div class="category-section">
+                            <h3>Male - Biking</h3>
+                            <div id="maleCycle"></div>
+                        </div>
+                        <div class="category-section">
+                            <h3>Female - Biking</h3>
+                            <div id="femaleCycle"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-grid">
+                    <div class="form-section">
+                        <h2>Summit Codes</h2>
+                        <p style="margin-bottom: 16px; color: #666;">Click to activate/deactivate codes</p>
+                        <p style="margin-bottom: 16px;">Active codes: <strong id="activeCodeCount">0</strong></p>
+                        <div class="codes-display" id="codesDisplay"></div>
+                        <button class="btn btn-secondary btn-small" style="margin-top: 24px;" onclick="clearActiveCodes()">CLEAR ALL ACTIVE</button>
+                    </div>
+
+                    <div class="form-section">
+                        <h2>Code Violations</h2>
+                        <div class="stat-card" style="margin-bottom: 24px;">
+                            <div class="stat-value" id="violationCount">0</div>
+                            <div class="stat-label">Total Violations</div>
+                        </div>
+                        <div id="violationsContent">
+                            <div class="no-data">No violations recorded yet.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section" style="margin-top: 40px;">
+                    <h2>Admin Actions</h2>
+                    <div style="display: flex; gap: 16px;">
+                        <button class="btn btn-secondary btn-small" onclick="clearAllData()">CLEAR ALL DATA</button>
+                        <button class="btn btn-small" onclick="exportData()">EXPORT DATA</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Admin Access</h2>
+            <div class="error-message message" id="loginError">Incorrect password</div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="adminPassword">Password</label>
+                    <input type="password" id="adminPassword" required>
+                </div>
+                <button type="submit" class="btn">ACCESS ADMIN</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Button -->
+    <button class="admin-btn" onclick="showPasswordModal()">ADMIN</button>
+
+    <script>
+        // IMPORTANT: Replace this with your Google Apps Script Web App URL
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzXaafCeXfVmghTjyedQABcM20apxbQSjlctSvC-ZELN_LmIUzrDUvMbcV7PILF4iWSXg/exec';
+        
+        // Initialize data
+        let leaderboardData = [];
+        let codeViolations = [];
+        let usedCodes = {};
+        const ADMIN_PASSWORD = "mountain2024";
+
+        // Fixed 30 unique 3-digit codes for MaxLaps Challenge
+        const uniqueDailyCodes = [
+            "101", "237", "456", "789", "234",
+            "567", "890", "123", "345", "678",
+            "912", "415", "628", "901", "254",
+            "573", "896", "142", "467", "785",
+            "023", "356", "689", "914", "247",
+            "568", "892", "135", "469", "999"
+        ];
+
+        // Load data from Google Sheets
+        async function loadData() {
+            try {
+                // Show loading state
+                document.getElementById('leaderboardContent').innerHTML = '<div class="no-data">Loading entries...</div>';
+                
+                // Get entries
+                const entriesResponse = await fetch(`${SCRIPT_URL}?action=getAll`);
+                const entriesData = await entriesResponse.json();
+                
+                if (entriesData.success) {
+                    leaderboardData = entriesData.entries || [];
+                    displayLeaderboard();
+                    displayFullLeaderboard();
+                    updateStatistics();
+                }
+                
+                // Get violations
+                const violationsResponse = await fetch(`${SCRIPT_URL}?action=getViolations`);
+                const violationsData = await violationsResponse.json();
+                
+                if (violationsData.success) {
+                    codeViolations = violationsData.violations || [];
+                    updateStatistics();
+                    displayViolations();
+                }
+                
+                // Get active codes
+                const codesResponse = await fetch(`${SCRIPT_URL}?action=getActiveCodes`);
+                const codesData = await codesResponse.json();
+                
+                if (codesData.success) {
+                    usedCodes = codesData.activeCodes || {};
+                }
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('leaderboardContent').innerHTML = '<div class="no-data">Error loading data. Please refresh the page.</div>';
+            }
+            
+            // Always display codes after loading
+            displayCodes();
+        }
+
+        // Save entry to Google Sheets
+        async function saveEntry(entry) {
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        ...entry,
+                        action: 'submit'
+                    })
+                });
+                
+                // Since we're using no-cors, we can't read the response
+                // Just add to local data
+                leaderboardData.push(entry);
+                leaderboardData.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                displayLeaderboard();
+                displayFullLeaderboard();
+                updateStatistics();
+            } catch (error) {
+                console.error('Error saving entry:', error);
+                alert('Error saving entry. Please try again.');
+            }
+        }
+
+        // Save violation to Google Sheets
+        async function saveViolation(violation) {
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        ...violation,
+                        action: 'saveViolation'
+                    })
+                });
+                
+                codeViolations.push(violation);
+                updateStatistics();
+                displayViolations();
+            } catch (error) {
+                console.error('Error saving violation:', error);
+            }
+        }
+
+        // Toggle code in Google Sheets
+        async function saveCodeToggle(code, isActive) {
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        code: code,
+                        isActive: isActive,
+                        action: 'toggleCode'
+                    })
+                });
+            } catch (error) {
+                console.error('Error toggling code:', error);
+            }
+        }
+
+        // Load data when page loads
+        window.addEventListener('load', function() {
+            if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+                alert('Please update the SCRIPT_URL with your Google Apps Script URL!');
+                displayLeaderboard();
+                updateStatistics();
+                displayCodes();
+                displayFullLeaderboard();
+            } else {
+                loadData();
+            }
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+            // Handle form submission
+        document.getElementById('scoreForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const playerName = document.getElementById('playerName').value.trim();
+            const dailyCode = document.getElementById('dailyCode').value.trim().toUpperCase();
+            const gender = document.querySelector('input[name="gender"]:checked').value;
+            const method = document.querySelector('input[name="method"]:checked').value;
+
+            // Validate daily code
+            const isValidCode = uniqueDailyCodes.includes(dailyCode);
+            const isActiveCode = Object.keys(usedCodes).includes(dailyCode);
+
+            if (!isValidCode) {
+                const violation = {
+                    name: playerName,
+                    attemptedCode: dailyCode,
+                    date: new Date().toISOString(),
+                    time: new Date().toLocaleTimeString()
+                };
+                await saveViolation(violation);
+
+                alert(`Invalid code: "${dailyCode}"`);
+                document.getElementById('dailyCode').value = '';
+                return;
+            }
+
+            if (!isActiveCode) {
+                const violation = {
+                    name: playerName,
+                    attemptedCode: dailyCode,
+                    date: new Date().toISOString(),
+                    time: new Date().toLocaleTimeString(),
+                    type: 'inactive'
+                };
+                await saveViolation(violation);
+
+                alert(`Code "${dailyCode}" is not active today.`);
+                document.getElementById('dailyCode').value = '';
+                return;
+            }
+
+            const entry = {
+                id: Date.now(),
+                name: playerName,
+                dailyCode: dailyCode,
+                gender: gender,
+                method: method,
+                date: new Date().toISOString(),
+                submissionTime: new Date().toLocaleTimeString()
+            };
+
+            // Save to Google Sheets
+            await saveEntry(entry);
+
+            const successMsg = document.getElementById('successMessage');
+            successMsg.style.display = 'block';
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 3000);
+
+            this.reset();
+        });
+
+        // Display leaderboard
+        function displayLeaderboard() {
+            const content = document.getElementById('leaderboardContent');
+            
+            if (leaderboardData.length === 0) {
+                content.innerHTML = '<div class="no-data">No entries yet. Be the first to submit!</div>';
+                return;
+            }
+
+            let html = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Entry</th>
+                            <th>Name</th>
+                            <th>Code</th>
+                            <th>Gender</th>
+                            <th>Method</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            leaderboardData.forEach((entry, index) => {
+                const entryNum = index + 1;
+                const date = new Date(entry.date).toLocaleDateString();
+                const time = entry.submissionTime || new Date(entry.date).toLocaleTimeString();
+
+                html += `
+                    <tr>
+                        <td>${entryNum}</td>
+                        <td>${entry.name}</td>
+                        <td><strong>${entry.dailyCode}</strong></td>
+                        <td>${entry.gender}</td>
+                        <td>${entry.method}</td>
+                        <td>${date}</td>
+                        <td>${time}</td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody></table>';
+            content.innerHTML = html;
+        }
+
+        // Update statistics
+        function updateStatistics() {
+            const totalEntries = leaderboardData.length;
+            const bikeCount = leaderboardData.filter(entry => entry.method === 'Biking').length;
+            const runCount = leaderboardData.filter(entry => entry.method === 'Running').length;
+            const maleCount = leaderboardData.filter(entry => entry.gender === 'Male').length;
+            const femaleCount = leaderboardData.filter(entry => entry.gender === 'Female').length;
+            
+            const today = new Date().toDateString();
+            const todaySubmissions = leaderboardData.filter(entry => 
+                new Date(entry.date).toDateString() === today
+            ).length;
+
+            document.getElementById('totalPlayers').textContent = totalEntries;
+            document.getElementById('highestScore').textContent = `${bikeCount} / ${runCount}`;
+            document.getElementById('averageScore').textContent = `${maleCount}M / ${femaleCount}F`;
+            document.getElementById('todaySubmissions').textContent = todaySubmissions;
+            document.getElementById('violationCount').textContent = codeViolations.length;
+        }
+
+        // Filter leaderboard
+        function filterLeaderboard() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filteredData = leaderboardData.filter(entry => 
+                entry.name.toLowerCase().includes(searchTerm) ||
+                entry.dailyCode.toLowerCase().includes(searchTerm)
+            );
+
+            const originalData = [...leaderboardData];
+            leaderboardData = filteredData;
+            displayLeaderboard();
+            leaderboardData = originalData;
+        }
+
+        // Admin functions
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('adminPassword').focus();
+        }
+
+        function closeModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('loginError').style.display = 'none';
+            document.getElementById('loginForm').reset();
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('adminPassword').value;
+            
+            if (password === ADMIN_PASSWORD) {
+                closeModal();
+                showAdminSection();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        });
+
+        function showAdminSection() {
+            document.getElementById('mainSection').style.display = 'none';
+            document.getElementById('adminSection').style.display = 'block';
+            displayCodes();
+            displayViolations();
+            displayCategoryLeaderboards();
+        }
+
+        function backToMain() {
+            document.getElementById('mainSection').style.display = 'block';
+            document.getElementById('adminSection').style.display = 'none';
+        }
+
+        // Display codes
+        function displayCodes() {
+            const codesDisplay = document.getElementById('codesDisplay');
+            let html = '';
+            let activeCount = 0;
+            
+            uniqueDailyCodes.forEach(code => {
+                const isUsed = usedCodes[code];
+                if (isUsed) activeCount++;
+                
+                let classAttr = 'code-item';
+                let dataAttr = '';
+                
+                if (isUsed) {
+                    classAttr += ' used';
+                    const date = new Date(isUsed.date).toLocaleDateString();
+                    const time = new Date(isUsed.date).toLocaleTimeString();
+                    dataAttr = `data-used-date="${date}\n${time}"`;
+                }
+                
+                html += `<div class="${classAttr}" ${dataAttr} onclick="toggleCode('${code}')">${code}</div>`;
+            });
+            
+            codesDisplay.innerHTML = html;
+            document.getElementById('activeCodeCount').textContent = activeCount;
+        }
+
+        async function toggleCode(code) {
+            if (usedCodes[code]) {
+                if (confirm(`Deactivate code ${code}?`)) {
+                    delete usedCodes[code];
+                    await saveCodeToggle(code, false);
+                    displayCodes();
+                }
+            } else {
+                usedCodes[code] = {
+                    date: new Date().toISOString(),
+                    activatedBy: 'Admin'
+                };
+                await saveCodeToggle(code, true);
+                displayCodes();
+            }
+        }
+
+        async function clearActiveCodes() {
+            if (confirm('Clear all active codes?')) {
+                usedCodes = {};
+                
+                try {
+                    await fetch(`${SCRIPT_URL}?action=clearActiveCodes`);
+                } catch (error) {
+                    console.error('Error clearing codes:', error);
+                }
+                
+                displayCodes();
+            }
+        }
+
+        // Display violations
+        function displayViolations() {
+            const violationsContent = document.getElementById('violationsContent');
+            
+            if (codeViolations.length === 0) {
+                violationsContent.innerHTML = '<div class="no-data">No violations recorded yet.</div>';
+                return;
+            }
+
+            let html = '<div class="violations-list">';
+            codeViolations.forEach((violation, index) => {
+                const date = new Date(violation.date).toLocaleDateString();
+                const violationType = violation.type === 'inactive' ? 'INACTIVE CODE' : 'INVALID CODE';
+                
+                html += `
+                    <div class="violation-item">
+                        <strong>#${index + 1} - ${violationType}</strong><br>
+                        Name: ${violation.name}<br>
+                        Code: <strong>${violation.attemptedCode}</strong><br>
+                        ${date} at ${violation.time}
+                    </div>
+                `;
+            });
+            html += '</div>';
+            violationsContent.innerHTML = html;
+        }
+
+        // Display full leaderboard with filters
+        function displayFullLeaderboard() {
+            const methodFilter = document.getElementById('methodFilter')?.value || 'all';
+            const genderFilter = document.getElementById('genderFilter')?.value || 'all';
+            
+            // Count entries per person
+            const personCounts = {};
+            
+            leaderboardData.forEach(entry => {
+                // Apply filters
+                if (methodFilter !== 'all' && entry.method !== methodFilter) return;
+                if (genderFilter !== 'all' && entry.gender !== genderFilter) return;
+                
+                const key = entry.name;
+                if (!personCounts[key]) {
+                    personCounts[key] = {
+                        name: entry.name,
+                        count: 0,
+                        gender: entry.gender,
+                        method: entry.method,
+                        lastDate: entry.date
+                    };
+                }
+                personCounts[key].count++;
+                if (new Date(entry.date) > new Date(personCounts[key].lastDate)) {
+                    personCounts[key].lastDate = entry.date;
+                }
+            });
+
+            // Convert to array and sort by count (highest first)
+            const sortedPeople = Object.values(personCounts).sort((a, b) => b.count - a.count);
+            
+            const content = document.getElementById('fullLeaderboardContent');
+            
+            if (sortedPeople.length === 0) {
+                content.innerHTML = '<div class="no-data">No entries match the selected filters.</div>';
+                return;
+            }
+
+            let html = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Name</th>
+                            <th>Entries</th>
+                            <th>Gender</th>
+                            <th>Method</th>
+                            <th>Last Entry</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            sortedPeople.forEach((person, index) => {
+                const rank = index + 1;
+                const date = new Date(person.lastDate).toLocaleDateString();
+                const trophy = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '';
+
+                html += `
+                    <tr>
+                        <td><strong>${rank}</strong> ${trophy}</td>
+                        <td>${person.name}</td>
+                        <td><strong>${person.count}</strong></td>
+                        <td>${person.gender}</td>
+                        <td>${person.method}</td>
+                        <td>${date}</td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody></table>';
+            content.innerHTML = html;
+        }
+
+        function filterFullLeaderboard() {
+            displayFullLeaderboard();
+        }
+
+        // Display category leaderboards
+        function displayCategoryLeaderboards() {
+            const categories = {
+                maleFoot: [],
+                femaleFoot: [],
+                maleCycle: [],
+                femaleCycle: []
+            };
+
+            const personCounts = {};
+            
+            leaderboardData.forEach(entry => {
+                const key = `${entry.name}_${entry.gender}_${entry.method}`;
+                if (!personCounts[key]) {
+                    personCounts[key] = {
+                        name: entry.name,
+                        gender: entry.gender,
+                        method: entry.method,
+                        count: 0,
+                        lastDate: entry.date
+                    };
+                }
+                personCounts[key].count++;
+                if (new Date(entry.date) > new Date(personCounts[key].lastDate)) {
+                    personCounts[key].lastDate = entry.date;
+                }
+            });
+
+            Object.values(personCounts).forEach(person => {
+                if (person.gender === 'Male' && person.method === 'Running') {
+                    categories.maleFoot.push(person);
+                } else if (person.gender === 'Female' && person.method === 'Running') {
+                    categories.femaleFoot.push(person);
+                } else if (person.gender === 'Male' && person.method === 'Biking') {
+                    categories.maleCycle.push(person);
+                } else if (person.gender === 'Female' && person.method === 'Biking') {
+                    categories.femaleCycle.push(person);
+                }
+            });
+
+            Object.keys(categories).forEach(cat => {
+                categories[cat].sort((a, b) => b.count - a.count);
+            });
+
+            displayCategoryList('maleFoot', categories.maleFoot);
+            displayCategoryList('femaleFoot', categories.femaleFoot);
+            displayCategoryList('maleCycle', categories.maleCycle);
+            displayCategoryList('femaleCycle', categories.femaleCycle);
+        }
+
+        function displayCategoryList(elementId, data) {
+            const element = document.getElementById(elementId);
+            
+            if (data.length === 0) {
+                element.innerHTML = '<div class="no-data">No entries yet</div>';
+                return;
+            }
+
+            let html = '';
+            data.slice(0, 10).forEach((person, index) => {
+                html += `
+                    <div class="category-entry">
+                        <span>${person.name}</span>
+                        <span class="entry-count">${person.count} entries</span>
+                    </div>
+                `;
+            });
+
+            element.innerHTML = html;
+        }
+
+        function clearAllData() {
+            if (confirm('Clear all data? This cannot be undone.')) {
+                leaderboardData = [];
+                codeViolations = [];
+                displayLeaderboard();
+                updateStatistics();
+                displayViolations();
+            }
+        }
+
+        function exportData() {
+            const exportData = {
+                entries: leaderboardData,
+                violations: codeViolations,
+                validCodes: uniqueDailyCodes,
+                activeCodes: usedCodes,
+                exportDate: new Date().toISOString()
+            };
+            console.log('Exported Data:', exportData);
+            alert('Data exported to console. Press F12 to view.');
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('passwordModal')) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

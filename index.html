@@ -193,6 +193,25 @@
             border-color: #666;
         }
 
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #000;
+            background-color: #fff;
+            font-size: 14px;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #666;
+        }
+
+        .filter-select {
+            border: 1px solid #e5e5e5;
+        }
+
         .radio-group {
             display: flex;
             gap: 24px;
@@ -211,23 +230,11 @@
             accent-color: #000;
         }
 
-        select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #000;
-            background-color: #fff;
+        .radio-item label {
             font-size: 14px;
-            font-family: inherit;
-            cursor: pointer;
-        }
-
-        select:focus {
-            outline: none;
-            border-color: #666;
-        }
-
-        .filter-select {
-            border: 1px solid #e5e5e5;
+            text-transform: none;
+            letter-spacing: normal;
+            margin-bottom: 0;
         }
 
         .btn {
@@ -988,7 +995,7 @@
 
     <script>
         // IMPORTANT: Replace this with your Google Apps Script Web App URL
-       const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwP7bk8o8uZ0Dg6Y-Z7y4G28VptqbWWRqSNc0cM4GIiH1JCkn85YmMuDo7t0tMwnyNufA/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwP7bk8o8uZ0Dg6Y-Z7y4G28VptqbWWRqSNc0cM4GIiH1JCkn85YmMuDo7t0tMwnyNufA/exec';
         
         // Initialize data
         let leaderboardData = [];
@@ -1137,7 +1144,7 @@
             });
         });
 
-            // Handle form submission
+        // Handle form submission
         document.getElementById('scoreForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
@@ -1280,6 +1287,85 @@
             leaderboardData = filteredData;
             displayLeaderboard();
             leaderboardData = originalData;
+        }
+
+        // Display full leaderboard with filters
+        function displayFullLeaderboard() {
+            const methodFilter = document.getElementById('methodFilter')?.value || 'all';
+            const genderFilter = document.getElementById('genderFilter')?.value || 'all';
+            
+            // Count entries per person
+            const personCounts = {};
+            
+            leaderboardData.forEach(entry => {
+                // Apply filters
+                if (methodFilter !== 'all' && entry.method !== methodFilter) return;
+                if (genderFilter !== 'all' && entry.gender !== genderFilter) return;
+                
+                const key = entry.name;
+                if (!personCounts[key]) {
+                    personCounts[key] = {
+                        name: entry.name,
+                        count: 0,
+                        gender: entry.gender,
+                        method: entry.method,
+                        lastDate: entry.date
+                    };
+                }
+                personCounts[key].count++;
+                if (new Date(entry.date) > new Date(personCounts[key].lastDate)) {
+                    personCounts[key].lastDate = entry.date;
+                }
+            });
+
+            // Convert to array and sort by count (highest first)
+            const sortedPeople = Object.values(personCounts).sort((a, b) => b.count - a.count);
+            
+            const content = document.getElementById('fullLeaderboardContent');
+            
+            if (sortedPeople.length === 0) {
+                content.innerHTML = '<div class="no-data">No entries match the selected filters.</div>';
+                return;
+            }
+
+            let html = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Name</th>
+                            <th>Entries</th>
+                            <th>Gender</th>
+                            <th>Method</th>
+                            <th>Last Entry</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            sortedPeople.forEach((person, index) => {
+                const rank = index + 1;
+                const date = new Date(person.lastDate).toLocaleDateString();
+                const trophy = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '';
+
+                html += `
+                    <tr>
+                        <td><strong>${rank}</strong> ${trophy}</td>
+                        <td>${person.name}</td>
+                        <td><strong>${person.count}</strong></td>
+                        <td>${person.gender}</td>
+                        <td>${person.method}</td>
+                        <td>${date}</td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody></table>';
+            content.innerHTML = html;
+        }
+
+        function filterFullLeaderboard() {
+            displayFullLeaderboard();
         }
 
         // Admin functions
@@ -1426,85 +1512,6 @@
             });
             html += '</div>';
             violationsContent.innerHTML = html;
-        }
-
-        // Display full leaderboard with filters
-        function displayFullLeaderboard() {
-            const methodFilter = document.getElementById('methodFilter')?.value || 'all';
-            const genderFilter = document.getElementById('genderFilter')?.value || 'all';
-            
-            // Count entries per person
-            const personCounts = {};
-            
-            leaderboardData.forEach(entry => {
-                // Apply filters
-                if (methodFilter !== 'all' && entry.method !== methodFilter) return;
-                if (genderFilter !== 'all' && entry.gender !== genderFilter) return;
-                
-                const key = entry.name;
-                if (!personCounts[key]) {
-                    personCounts[key] = {
-                        name: entry.name,
-                        count: 0,
-                        gender: entry.gender,
-                        method: entry.method,
-                        lastDate: entry.date
-                    };
-                }
-                personCounts[key].count++;
-                if (new Date(entry.date) > new Date(personCounts[key].lastDate)) {
-                    personCounts[key].lastDate = entry.date;
-                }
-            });
-
-            // Convert to array and sort by count (highest first)
-            const sortedPeople = Object.values(personCounts).sort((a, b) => b.count - a.count);
-            
-            const content = document.getElementById('fullLeaderboardContent');
-            
-            if (sortedPeople.length === 0) {
-                content.innerHTML = '<div class="no-data">No entries match the selected filters.</div>';
-                return;
-            }
-
-            let html = `
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Name</th>
-                            <th>Entries</th>
-                            <th>Gender</th>
-                            <th>Method</th>
-                            <th>Last Entry</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
-
-            sortedPeople.forEach((person, index) => {
-                const rank = index + 1;
-                const date = new Date(person.lastDate).toLocaleDateString();
-                const trophy = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '';
-
-                html += `
-                    <tr>
-                        <td><strong>${rank}</strong> ${trophy}</td>
-                        <td>${person.name}</td>
-                        <td><strong>${person.count}</strong></td>
-                        <td>${person.gender}</td>
-                        <td>${person.method}</td>
-                        <td>${date}</td>
-                    </tr>
-                `;
-            });
-
-            html += '</tbody></table>';
-            content.innerHTML = html;
-        }
-
-        function filterFullLeaderboard() {
-            displayFullLeaderboard();
         }
 
         // Display category leaderboards

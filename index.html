@@ -7,6 +7,17 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="format-detection" content="telephone=no">
     <title>MAX LAPS CHALLENGE</title>
+    <!-- 
+    TO ADD YOUR PARTNER LOGOS:
+    1. Save your logo images with these exact names (or update the names in the HTML):
+       - independence-run-hike-logo.png
+       - wise-bar-logo.png
+       - revel-bikes-logo.png
+    2. Place all logo files in the same folder as this HTML file
+    3. If your files have different names or are in a different folder, update the src="" paths
+    4. The logos will automatically display once the files are in place
+    5. Until then, placeholder boxes will show the partner names
+    -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         
@@ -134,7 +145,7 @@
         /* Hero Section with Image Background */
         .hero {
             background: linear-gradient(135deg, var(--strafe-sand) 0%, var(--light-sage) 50%, var(--strafe-wheat) 100%);
-            padding: 100px 0;
+            padding: 80px 0 100px 0;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -155,6 +166,61 @@
         .hero-content {
             position: relative;
             z-index: 1;
+        }
+
+        .partnership-section {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .partnership-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--primary-black);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .partner-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .partner-logo {
+            height: 60px;
+            width: auto;
+            max-width: 180px;
+            object-fit: contain;
+            filter: brightness(0.95);
+            transition: all 0.3s ease;
+        }
+
+        .partner-logo:hover {
+            filter: brightness(1);
+            transform: scale(1.05);
+        }
+
+        .partner-logo-placeholder {
+            height: 60px;
+            min-width: 120px;
+            padding: 10px 20px;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            border: 1px dashed #ccc;
+            border-radius: 4px;
+            line-height: 1.4;
+            text-align: center;
         }
 
         .hero h1 {
@@ -776,7 +842,7 @@
 
             /* Reduce padding on hero */
             .hero {
-                padding: 40px 0;
+                padding: 40px 0 50px 0;
             }
 
             .stats-section {
@@ -794,6 +860,31 @@
 
             .category-section h3 {
                 font-size: 14px;
+            }
+
+            /* Partnership section mobile */
+            .partnership-section {
+                margin-top: 30px;
+            }
+
+            .partnership-text {
+                font-size: 14px;
+            }
+
+            .partner-logos {
+                gap: 20px;
+            }
+
+            .partner-logo,
+            .partner-logo-placeholder {
+                height: 50px;
+                max-width: 120px;
+            }
+
+            .partner-logo-placeholder {
+                min-width: 100px;
+                font-size: 11px;
+                padding: 8px 15px;
             }
 
             /* Container padding */
@@ -874,6 +965,11 @@
             .code-item.used:hover {
                 background: linear-gradient(135deg, var(--strafe-stone) 0%, #666 100%);
             }
+
+            .partner-logo:hover {
+                filter: brightness(0.95);
+                transform: none;
+            }
         }
 
         /* iOS specific fixes */
@@ -910,8 +1006,25 @@
 
         <section class="hero">
             <div class="container">
-                <h1>TRACK YOUR LAP</h1>
-                <p>Congratulations on reaching the summit! You're one lap closer to winning amazing prizes.</p>
+                <div class="hero-content">
+                    <h1>TRACK YOUR LAP</h1>
+                    <p>Congratulations on reaching the summit! You're one lap closer to winning amazing prizes.</p>
+                    
+                    <!-- Partnership Section -->
+                    <div class="partnership-section">
+                        <p class="partnership-text">In Partnership With</p>
+                        <div class="partner-logos">
+                            <!-- Independence Run & Hike Logo -->
+                            <img src="independence-run-hike-logo.png" alt="Independence Run & Hike" class="partner-logo" onerror="this.outerHTML='<div class=\'partner-logo-placeholder\'>Independence<br>Run & Hike</div>'">
+                            
+                            <!-- Wise Bar Logo -->
+                            <img src="wise-bar-logo.png" alt="Wise Bar" class="partner-logo" onerror="this.outerHTML='<div class=\'partner-logo-placeholder\'>Wise Bar</div>'">
+                            
+                            <!-- Revel Bikes Logo -->
+                            <img src="revel-bikes-logo.png" alt="Revel Bikes" class="partner-logo" onerror="this.outerHTML='<div class=\'partner-logo-placeholder\'>Revel Bikes</div>'">
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 

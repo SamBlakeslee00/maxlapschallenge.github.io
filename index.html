@@ -57,6 +57,9 @@
             --pastel-peach: #FFF5E6;
             --pastel-sand: #F5F0E8;
             --pastel-ivory: #FFFCF8;
+            
+            /* Partnership bar color - light neutral that works with all logos */
+            --partnership-bg: #F4F1ED;
         }
 
         body {
@@ -177,7 +180,6 @@
         .partnership-section {
             margin-top: 50px;
             text-align: center;
-            padding: 20px 0;
         }
 
         .partnership-text {
@@ -190,67 +192,51 @@
             opacity: 0.8;
         }
 
-  .partner-logos-bar {
-    background-color: #ffffff;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 60px;
-    flex-wrap: wrap;
-    margin: 0 -20px; /* Extend to full width */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
+        /* Fixed Partnership Bar */
+        .partner-logos-wrapper {
+            background-color: var(--partnership-bg);
+            padding: 30px 0;
+            margin: 0 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
 
-.partner-logo-container {
-    width: 150px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        .partner-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
 
-.partner-logo {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-}
+        .partner-logo {
+            height: 40px;
+            width: auto;
+            max-width: 120px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
 
-.partner-logo-placeholder {
-    width: 150px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f0f0f0;
-    border: 1px dashed #ccc;
-    font-size: 12px;
-    font-weight: 600;
-    color: #666;
-    text-align: center;
-    padding: 5px;
-}
+        .partner-logo:hover {
+            transform: scale(1.05);
+        }
 
-/* Mobile adjustments */
-@media (max-width: 768px) {
-    .partner-logos-bar {
-        gap: 30px;
-        padding: 15px;
-    }
-    
-    .partner-logo-container {
-        width: 120px;
-        height: 40px;
-    }
-    
-    .partner-logo-placeholder {
-        width: 120px;
-        height: 40px;
-        font-size: 10px;
-    }
-}
+        .partner-logo-placeholder {
+            height: 40px;
+            min-width: 100px;
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.6);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: #666;
+            border: 1px dashed #999;
+            border-radius: 4px;
+            line-height: 1.2;
+            text-align: center;
         }
 
         .hero h1 {
@@ -897,7 +883,6 @@
             /* Partnership section mobile */
             .partnership-section {
                 margin-top: 30px;
-                padding: 15px 0;
             }
 
             .partnership-text {
@@ -905,22 +890,25 @@
                 margin-bottom: 20px;
             }
 
-            .partner-logos {
-                gap: 20px;
-                margin: 0 10px;
+            .partner-logos-wrapper {
+                margin: 0 20px;
+                padding: 20px 0;
             }
 
-            /* FIXED: Mobile partner logo sizing */
-            .partner-logo,
-            .partner-logo-placeholder {
+            .partner-logos {
+                gap: 30px;
+            }
+
+            .partner-logo {
                 height: 35px;
                 max-width: 100px;
             }
 
             .partner-logo-placeholder {
+                height: 35px;
                 min-width: 80px;
-                font-size: 11px;
-                padding: 8px 16px;
+                font-size: 10px;
+                padding: 8px 15px;
             }
 
             /* Container padding */
@@ -945,6 +933,10 @@
 
             .logo {
                 font-size: 20px;
+            }
+
+            .partner-logos-wrapper {
+                margin: 0 10px;
             }
         }
 
@@ -1004,7 +996,6 @@
 
             .partner-logo:hover {
                 transform: none;
-                box-shadow: none;
             }
         }
 
@@ -1047,28 +1038,19 @@
                     <p>Congratulations on reaching the summit! You're one lap closer to winning amazing prizes.</p>
                     
                     <!-- Partnership Section -->
-<div class="partnership-section">
-    <p class="partnership-text">In Partnership With</p>
-    <div class="partner-logos-bar">
-        <div class="partner-logo-container">
-            <img src="independence-run-hike-logo.png" alt="Independence Run & Hike" class="partner-logo" onerror="this.outerHTML='<div class=\'partner-logo-placeholder\'>Independence<br>Run & Hike</div>'">
-        </div>
-        <div class="partner-logo-container">
-            <img src="wise-bar-logo.png" alt="Wise Bar" class="partner-logo" onerror="this.outerHTML='<div class=\'partner-logo-placeholder\'>Wise Bar</div>'">
-        </div>
-        <div class="partner-logo-container">
-            <img src="revel-bikes-logo.png" alt="Revel Bikes" class="partner-logo" onerror="this.outerHTML='<div class=\'partner-logo-placeholder\'>Revel Bikes</div>'">
-        </div>
-    </div>
-</div>
-                            <!-- Independence Run & Hike Logo -->
-                            <img src="independence-run-hike-logo.png" alt="Independence Run & Hike" class="partner-logo" onerror="this.outerHTML='<div class=\'partner-logo-placeholder\'>Independence<br>Run & Hike</div>'">
-                            
-                            <!-- Wise Bar Logo -->
-                            <img src="wise-bar-logo.png" alt="Wise Bar" class="partner-logo" onerror="this.outerHTML='<div class=\'partner-logo-placeholder\'>Wise Bar</div>'">
-                            
-                            <!-- Revel Bikes Logo -->
-                            <img src="revel-bikes-logo.png" alt="Revel Bikes" class="partner-logo" onerror="this.outerHTML='<div class=\'partner-logo-placeholder\'>Revel Bikes</div>'">
+                    <div class="partnership-section">
+                        <p class="partnership-text">In Partnership With</p>
+                        <div class="partner-logos-wrapper">
+                            <div class="partner-logos">
+                                <!-- Independence Run & Hike Logo -->
+                                <img src="independence-run-hike-logo.png" alt="Independence Run & Hike" class="partner-logo" onerror="this.outerHTML='<div class=\'partner-logo-placeholder\'>Independence<br>Run & Hike</div>'">
+                                
+                                <!-- Wise Bar Logo -->
+                                <img src="wise-bar-logo.png" alt="Wise Bar" class="partner-logo" onerror="this.outerHTML='<div class=\'partner-logo-placeholder\'>Wise Bar</div>'">
+                                
+                                <!-- Revel Bikes Logo -->
+                                <img src="revel-bikes-logo.png" alt="Revel Bikes" class="partner-logo" onerror="this.outerHTML='<div class=\'partner-logo-placeholder\'>Revel Bikes</div>'">
+                            </div>
                         </div>
                     </div>
                 </div>

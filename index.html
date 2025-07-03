@@ -194,43 +194,40 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 80px;
+            gap: 40px;
             flex-wrap: wrap;
             margin: 0 20px;
         }
 
+        /* FIXED: Partner logos now match Strafe logo size */
         .partner-logo {
-            height: 100px;
+            height: 40px;
             width: auto;
-            max-width: 240px;
+            max-width: 120px;
             object-fit: contain;
             transition: all 0.3s ease;
-            padding: 10px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 8px;
+            /* Removed white background */
         }
 
         .partner-logo:hover {
-            transform: scale(1.05);
-            background-color: rgba(255, 255, 255, 1);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: scale(1.1);
         }
 
         .partner-logo-placeholder {
-            height: 100px;
-            min-width: 180px;
-            padding: 20px 30px;
+            height: 40px;
+            min-width: 100px;
+            padding: 10px 20px;
             background-color: #f0f0f0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 12px;
             font-weight: 600;
             color: #666;
             border: 1px dashed #ccc;
             border-radius: 4px;
-            line-height: 1.4;
+            line-height: 1.2;
             text-align: center;
         }
 
@@ -887,25 +884,21 @@
             }
 
             .partner-logos {
-                gap: 30px;
+                gap: 20px;
                 margin: 0 10px;
             }
 
+            /* FIXED: Mobile partner logo sizing */
             .partner-logo,
             .partner-logo-placeholder {
-                height: 80px;
-                max-width: 180px;
-            }
-
-            .partner-logo {
-                padding: 8px;
-                background-color: rgba(255, 255, 255, 0.8);
+                height: 35px;
+                max-width: 100px;
             }
 
             .partner-logo-placeholder {
-                min-width: 140px;
-                font-size: 14px;
-                padding: 12px 20px;
+                min-width: 80px;
+                font-size: 11px;
+                padding: 8px 16px;
             }
 
             /* Container padding */
@@ -989,7 +982,6 @@
 
             .partner-logo:hover {
                 transform: none;
-                background-color: rgba(255, 255, 255, 0.8);
                 box-shadow: none;
             }
         }
@@ -1297,8 +1289,25 @@
                 const entriesResponse = await fetch(`${SCRIPT_URL}?action=getAll`);
                 const entriesData = await entriesResponse.json();
                 
-                if (entriesData.success) {
-                    leaderboardData = entriesData.entries || [];
+                if (entriesData.success && entriesData.entries) {
+                    // FIXED: Parse each entry properly
+                    leaderboardData = entriesData.entries.map(entry => {
+                        // Handle the case where entry might be an array from Google Sheets
+                        if (Array.isArray(entry)) {
+                            return {
+                                id: entry[0],
+                                name: entry[1],
+                                dailyCode: entry[2],
+                                gender: entry[3],
+                                method: entry[4],
+                                date: entry[5],
+                                submissionTime: entry[6]
+                            };
+                        }
+                        // If it's already an object, return as is
+                        return entry;
+                    }).filter(entry => entry && entry.name); // Filter out empty entries
+                    
                     displayLeaderboard();
                     displayFullLeaderboard();
                     updateStatistics();
@@ -1308,8 +1317,21 @@
                 const violationsResponse = await fetch(`${SCRIPT_URL}?action=getViolations`);
                 const violationsData = await violationsResponse.json();
                 
-                if (violationsData.success) {
-                    codeViolations = violationsData.violations || [];
+                if (violationsData.success && violationsData.violations) {
+                    codeViolations = violationsData.violations.map(violation => {
+                        // Handle array format from Google Sheets
+                        if (Array.isArray(violation)) {
+                            return {
+                                name: violation[0],
+                                attemptedCode: violation[1],
+                                date: violation[2],
+                                time: violation[3],
+                                type: violation[4]
+                            };
+                        }
+                        return violation;
+                    }).filter(v => v && v.name);
+                    
                     updateStatistics();
                     displayViolations();
                 }
@@ -1318,7 +1340,7 @@
                 const codesResponse = await fetch(`${SCRIPT_URL}?action=getActiveCodes`);
                 const codesData = await codesResponse.json();
                 
-                if (codesData.success) {
+                if (codesData.success && codesData.activeCodes) {
                     usedCodes = codesData.activeCodes || {};
                 }
             } catch (error) {
@@ -1369,16 +1391,15 @@
         // Save violation to Google Sheets
         async function saveViolation(violation) {
             try {
-                await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'text/plain',
-                    },
-                    body: JSON.stringify({
-                        ...violation,
-                        action: 'saveViolation'
-                    })
+                const params = new URLSearchParams({
+                    action: 'saveViolation',
+                    name: violation.name,
+                    attemptedCode: violation.attemptedCode,
+                    time: violation.time,
+                    type: violation.type || 'invalid'
                 });
+                
+                await fetch(`${SCRIPT_URL}?${params}`);
                 
                 codeViolations.push(violation);
                 updateStatistics();
@@ -1550,15 +1571,20 @@
         // Update statistics
         function updateStatistics() {
             const totalEntries = leaderboardData.length;
-            const bikeCount = leaderboardData.filter(entry => entry.method === 'Biking').length;
-            const runCount = leaderboardData.filter(entry => entry.method === 'Running').length;
-            const maleCount = leaderboardData.filter(entry => entry.gender === 'Male').length;
-            const femaleCount = leaderboardData.filter(entry => entry.gender === 'Female').length;
+            const bikeCount = leaderboardData.filter(entry => entry && entry.method === 'Biking').length;
+            const runCount = leaderboardData.filter(entry => entry && entry.method === 'Running').length;
+            const maleCount = leaderboardData.filter(entry => entry && entry.gender === 'Male').length;
+            const femaleCount = leaderboardData.filter(entry => entry && entry.gender === 'Female').length;
             
             const today = new Date().toDateString();
-            const todaySubmissions = leaderboardData.filter(entry => 
-                new Date(entry.date).toDateString() === today
-            ).length;
+            const todaySubmissions = leaderboardData.filter(entry => {
+                if (!entry || !entry.date) return false;
+                try {
+                    return new Date(entry.date).toDateString() === today;
+                } catch (e) {
+                    return false;
+                }
+            }).length;
 
             document.getElementById('totalPlayers').textContent = totalEntries;
             document.getElementById('highestScore').textContent = `${bikeCount} / ${runCount}`;
@@ -1591,6 +1617,8 @@
             const personCounts = {};
             
             leaderboardData.forEach(entry => {
+                if (!entry || !entry.name) return;
+                
                 // Apply filters
                 if (methodFilter !== 'all' && entry.method !== methodFilter) return;
                 if (genderFilter !== 'all' && entry.gender !== genderFilter) return;
@@ -1606,7 +1634,7 @@
                     };
                 }
                 personCounts[key].count++;
-                if (new Date(entry.date) > new Date(personCounts[key].lastDate)) {
+                if (entry.date && new Date(entry.date) > new Date(personCounts[key].lastDate)) {
                     personCounts[key].lastDate = entry.date;
                 }
             });
@@ -1638,7 +1666,14 @@
 
             sortedPeople.forEach((person, index) => {
                 const rank = index + 1;
-                const date = new Date(person.lastDate).toLocaleDateString();
+                let date = 'Unknown';
+                if (person.lastDate) {
+                    try {
+                        date = new Date(person.lastDate).toLocaleDateString();
+                    } catch (e) {
+                        console.error('Date parsing error:', e);
+                    }
+                }
                 const trophy = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '';
 
                 html += `
@@ -1646,8 +1681,8 @@
                         <td><strong>${rank}</strong> ${trophy}</td>
                         <td>${person.name}</td>
                         <td><strong>${person.count}</strong></td>
-                        <td>${person.gender}</td>
-                        <td>${person.method}</td>
+                        <td>${person.gender || 'Unknown'}</td>
+                        <td>${person.method || 'Unknown'}</td>
                         <td>${date}</td>
                     </tr>
                 `;
@@ -1791,15 +1826,22 @@
 
             let html = '<div class="violations-list">';
             codeViolations.forEach((violation, index) => {
-                const date = new Date(violation.date).toLocaleDateString();
+                let date = 'Unknown';
+                if (violation.date) {
+                    try {
+                        date = new Date(violation.date).toLocaleDateString();
+                    } catch (e) {
+                        console.error('Date parsing error:', e);
+                    }
+                }
                 const violationType = violation.type === 'inactive' ? 'INACTIVE CODE' : 'INVALID CODE';
                 
                 html += `
                     <div class="violation-item">
                         <strong>#${index + 1} - ${violationType}</strong><br>
-                        Name: ${violation.name}<br>
-                        Code: <strong>${violation.attemptedCode}</strong><br>
-                        ${date} at ${violation.time}
+                        Name: ${violation.name || 'Unknown'}<br>
+                        Code: <strong>${violation.attemptedCode || 'Unknown'}</strong><br>
+                        ${date} at ${violation.time || 'Unknown'}
                     </div>
                 `;
             });
@@ -1819,6 +1861,8 @@
             const personCounts = {};
             
             leaderboardData.forEach(entry => {
+                if (!entry || !entry.name) return;
+                
                 const key = `${entry.name}_${entry.gender}_${entry.method}`;
                 if (!personCounts[key]) {
                     personCounts[key] = {
@@ -1830,7 +1874,7 @@
                     };
                 }
                 personCounts[key].count++;
-                if (new Date(entry.date) > new Date(personCounts[key].lastDate)) {
+                if (entry.date && new Date(entry.date) > new Date(personCounts[key].lastDate)) {
                     personCounts[key].lastDate = entry.date;
                 }
             });

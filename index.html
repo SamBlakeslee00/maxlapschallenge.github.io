@@ -1486,7 +1486,7 @@
         function displayLeaderboard() {
             const content = document.getElementById('leaderboardContent');
             
-            if (leaderboardData.length === 0) {
+            if (!leaderboardData || leaderboardData.length === 0) {
                 content.innerHTML = '<div class="no-data">No entries yet. Be the first to submit!</div>';
                 return;
             }
@@ -1507,16 +1507,36 @@
             `;
 
             leaderboardData.forEach((entry, index) => {
+                // Check if entry exists and has the required properties
+                if (!entry) return;
+                
                 const entryNum = index + 1;
-                const date = new Date(entry.date).toLocaleDateString();
-                const time = entry.submissionTime || new Date(entry.date).toLocaleTimeString();
+                const name = entry.name || 'Unknown';
+                const gender = entry.gender || 'Unknown';
+                const method = entry.method || 'Unknown';
+                
+                // Handle date with fallback
+                let date = 'Unknown';
+                let time = 'Unknown';
+                
+                if (entry.date) {
+                    try {
+                        const dateObj = new Date(entry.date);
+                        if (!isNaN(dateObj.getTime())) {
+                            date = dateObj.toLocaleDateString();
+                            time = entry.submissionTime || dateObj.toLocaleTimeString();
+                        }
+                    } catch (e) {
+                        console.error('Date parsing error:', e);
+                    }
+                }
 
                 html += `
                     <tr>
                         <td>${entryNum}</td>
-                        <td>${entry.name}</td>
-                        <td>${entry.gender}</td>
-                        <td>${entry.method}</td>
+                        <td>${name}</td>
+                        <td>${gender}</td>
+                        <td>${method}</td>
                         <td>${date}</td>
                         <td>${time}</td>
                     </tr>
@@ -1550,9 +1570,11 @@
         // Filter leaderboard
         function filterLeaderboard() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const filteredData = leaderboardData.filter(entry => 
-                entry.name.toLowerCase().includes(searchTerm)
-            );
+            const filteredData = leaderboardData.filter(entry => {
+                // Check if entry and entry.name exist before using toLowerCase
+                if (!entry || !entry.name) return false;
+                return entry.name.toLowerCase().includes(searchTerm);
+            });
 
             const originalData = [...leaderboardData];
             leaderboardData = filteredData;

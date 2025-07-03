@@ -190,45 +190,67 @@
             opacity: 0.8;
         }
 
-        .partner-logos {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            margin: 0 20px;
-        }
+  .partner-logos-bar {
+    background-color: #ffffff;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    flex-wrap: wrap;
+    margin: 0 -20px; /* Extend to full width */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
 
-        /* FIXED: Partner logos now match Strafe logo size */
-        .partner-logo {
-            height: 40px;
-            width: auto;
-            max-width: 120px;
-            object-fit: contain;
-            transition: all 0.3s ease;
-            /* Removed white background */
-        }
+.partner-logo-container {
+    width: 150px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        .partner-logo:hover {
-            transform: scale(1.1);
-        }
+.partner-logo {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
 
-        .partner-logo-placeholder {
-            height: 40px;
-            min-width: 100px;
-            padding: 10px 20px;
-            background-color: #f0f0f0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 600;
-            color: #666;
-            border: 1px dashed #ccc;
-            border-radius: 4px;
-            line-height: 1.2;
-            text-align: center;
+.partner-logo-placeholder {
+    width: 150px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    border: 1px dashed #ccc;
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    text-align: center;
+    padding: 5px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .partner-logos-bar {
+        gap: 30px;
+        padding: 15px;
+    }
+    
+    .partner-logo-container {
+        width: 120px;
+        height: 40px;
+    }
+    
+    .partner-logo-placeholder {
+        width: 120px;
+        height: 40px;
+        font-size: 10px;
+    }
+}
         }
 
         .hero h1 {
@@ -1025,9 +1047,20 @@
                     <p>Congratulations on reaching the summit! You're one lap closer to winning amazing prizes.</p>
                     
                     <!-- Partnership Section -->
-                    <div class="partnership-section">
-                        <p class="partnership-text">In Partnership With</p>
-                        <div class="partner-logos">
+<div class="partnership-section">
+    <p class="partnership-text">In Partnership With</p>
+    <div class="partner-logos-bar">
+        <div class="partner-logo-container">
+            <img src="independence-run-hike-logo.png" alt="Independence Run & Hike" class="partner-logo" onerror="this.outerHTML='<div class=\'partner-logo-placeholder\'>Independence<br>Run & Hike</div>'">
+        </div>
+        <div class="partner-logo-container">
+            <img src="wise-bar-logo.png" alt="Wise Bar" class="partner-logo" onerror="this.outerHTML='<div class=\'partner-logo-placeholder\'>Wise Bar</div>'">
+        </div>
+        <div class="partner-logo-container">
+            <img src="revel-bikes-logo.png" alt="Revel Bikes" class="partner-logo" onerror="this.outerHTML='<div class=\'partner-logo-placeholder\'>Revel Bikes</div>'">
+        </div>
+    </div>
+</div>
                             <!-- Independence Run & Hike Logo -->
                             <img src="independence-run-hike-logo.png" alt="Independence Run & Hike" class="partner-logo" onerror="this.outerHTML='<div class=\'partner-logo-placeholder\'>Independence<br>Run & Hike</div>'">
                             

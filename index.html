@@ -1293,47 +1293,108 @@
             "023", "356", "689", "914", "247",
             "568", "892", "135", "469", "999"
         ];
-
-        // Load data from Google Sheets
-        async function loadData() {
-            try {
-                // Show loading state
-                document.getElementById('leaderboardContent').innerHTML = '<div class="no-data">Loading entries...</div>';
-                
-                // Get entries
-                const entriesResponse = await fetch(`${SCRIPT_URL}?action=getAll`);
-                const entriesData = await entriesResponse.json();
-                
-                if (entriesData.success && entriesData.entries) {
-                    // FIXED: Parse each entry properly
-                    leaderboardData = entriesData.entries.map(entry => {
-                        // Handle the case where entry might be an array from Google Sheets
-                        if (Array.isArray(entry)) {
-                            return {
-                                id: entry[0],
-                                name: entry[1],
-                                dailyCode: entry[2],
-                                gender: entry[3],
-                                method: entry[4],
-                                date: entry[5],
-                                submissionTime: entry[6]
-                            };
-                        }
-                        // If it's already an object, return as is
-                        return entry;
-                    }).filter(entry => entry && entry.name); // Filter out empty entries
-                    
-                    displayLeaderboard();
-                    displayFullLeaderboard();
-                    updateStatistics();
+// Load data from Google Sheets
+async function loadData() {
+    try {
+        // Show loading state
+        document.getElementById('leaderboardContent').innerHTML = '<div class="no-data">Loading entries...</div>';
+        
+        console.log('Loading data from:', `${SCRIPT_URL}?action=getAll`);
+        
+        // Get entries
+        const entriesResponse = await fetch(`${SCRIPT_URL}?action=getAll`);
+        const entriesText = await entriesResponse.text();
+        console.log('Raw response:', entriesText);
+        
+        let entriesData;
+        try {
+            entriesData = JSON.parse(entriesText);
+            console.log('Parsed data:', entriesData);
+        } catch (e) {
+            console.error('Failed to parse JSON:', e);
+            console.log('Response was:', entriesText);
+            document.getElementById('leaderboardContent').innerHTML = '<div class="no-data">Error: Invalid data format from server.</div>';
+            return;
+        }
+        
+        if (entriesData.success && entriesData.entries) {
+            console.log('Number of entries found:', entriesData.entries.length);
+            console.log('First entry:', entriesData.entries[0]);
+            
+            // FIXED: Parse each entry properly
+            leaderboardData = entriesData.entries.map(entry => {
+                // Handle the case where entry might be an array from Google Sheets
+                if (Array.isArray(entry)) {
+                    return {
+                        id: entry[0],
+                        name: entry[1],
+                        dailyCode: entry[2],
+                        gender: entry[3],
+                        method: entry[4],
+                        date: entry[5],
+                        submissionTime: entry[6]
+                    };
                 }
+                // If it's already an object, return as is
+                return entry;
+            }).filter(entry => entry && entry.name); // Filter out empty entries
+            
+            console.log('Processed entries:', leaderboardData);
+            
+            displayLeaderboard();
+            displayFullLeaderboard();
+            updateStatistics();
+        } else {
+            console.log('No success or entries in response');
+            document.getElementById('leaderboardContent').innerHTML = '<div class="no-data">No entries found.</div>';
+        }
+        
+        // Get violations (keeping the existing code for violations)
+        try {
+            const violationsResponse = await fetch(`${SCRIPT_URL}?action=getViolations`);
+            const violationsData = await violationsResponse.json();
+            
+            if (violationsData.success && violationsData.violations) {
+                codeViolations = violationsData.violations.map(violation => {
+                    if (Array.isArray(violation)) {
+                        return {
+                            name: violation[0],
+                            attemptedCode: violation[1],
+                            date: violation[2],
+                            time: violation[3],
+                            type: violation[4]
+                        };
+                    }
+                    return violation;
+                }).filter(v => v && v.name);
                 
-                // Get violations
-                const violationsResponse = await fetch(`${SCRIPT_URL}?action=getViolations`);
-                const violationsData = await violationsResponse.json();
-                
-                if (violationsData.success && violationsData.violations) {
-                    codeViolations = violationsData.violations.map(violation => {
+                updateStatistics();
+                displayViolations();
+            }
+        } catch (e) {
+            console.log('Error loading violations:', e);
+        }
+        
+        // Get active codes (keeping the existing code)
+        try {
+            const codesResponse = await fetch(`${SCRIPT_URL}?action=getActiveCodes`);
+            const codesData = await codesResponse.json();
+            
+            if (codesData.success && codesData.activeCodes) {
+                usedCodes = codesData.activeCodes || {};
+            }
+        } catch (e) {
+            console.log('Error loading active codes:', e);
+        }
+    } catch (error) {
+        console.error('Error loading data:', error);
+        document.getElementById('leaderboardContent').innerHTML = '<div class="no-data">Error loading data. Please check console for details.</div>';
+    }
+    
+    // Always display codes after loading
+    displayCodes();
+}
+       
                         // Handle array format from Google Sheets
                         if (Array.isArray(violation)) {
                             return {
